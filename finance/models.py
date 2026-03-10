@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ValidationError
 
 class Status(models.Model):
     name = models.CharField(max_length=100)
@@ -37,3 +38,10 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.amount} - {self.category}"
+    
+    def clean(self):
+        if self.subcategory.category != self.category:
+            raise ValidationError("Подкатегория не принадлежит категории")
+
+        if self.category.type != self.type:
+            raise ValidationError("Категория не принадлежит типу")
