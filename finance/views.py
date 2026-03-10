@@ -10,7 +10,7 @@ def transaction_list(request):
 
     return render(
         request,
-        'transactions_list.html',
+        'finance/transactions_list.html',
         {
             'filter': transaction_filter
         }
@@ -28,13 +28,13 @@ def transaction_create(request):
 
     return render(
         request,
-        'transiction_form.html',
+        'finance/transaction_form.html',
         {
             'form': form
         }
     )
 
-def transiction_update(request, pk):
+def transaction_update(request, pk):
     transaction = get_object_or_404(Transaction, pk=pk)
 
     if request.method == "POST":
@@ -48,7 +48,7 @@ def transiction_update(request, pk):
 
     return render(
         request,
-        'transaction_form.html',
+        'finance/transaction_form.html',
         {
             'form': form
         }
@@ -57,6 +57,14 @@ def transiction_update(request, pk):
 def transaction_delete(request, pk):
     transaction = get_object_or_404(Transaction, pk=pk)
 
-    transaction.delete()
+    if request.method == "POST":
+        transaction.delete()
+        return redirect('transactions')
 
-    return redirect('transactions')
+    return render(
+        request,
+        'finance/confirm_delete.html',
+        {
+            'transaction': transaction
+        }
+    )
