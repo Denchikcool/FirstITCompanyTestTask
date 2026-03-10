@@ -1,0 +1,18 @@
+{% extends 'finance/base.html' %}
+{% block content %}
+<h2>Удалить операцию?</h2>
+<p>
+    {{ transaction.category }}
+    —
+    {{ transaction.amount }}
+</p>
+<form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger">
+        Удалить
+    </button>
+    <a href="/" class="btn btn-secondary">
+        Отмена
+    </a>
+</form>
+{% endblock %}

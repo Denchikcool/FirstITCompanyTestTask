@@ -1,0 +1,63 @@
+{% extends 'finance/base.html' %}
+{% block content %}
+<h2 class="mb-4">Движение денежных средств</h2>
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-2">
+        {{ filter.form.created_at }}
+    </div>
+    <div class="col-md-2">
+        {{ filter.form.status }}
+    </div>
+    <div class="col-md-2">
+        {{ filter.form.type }}
+    </div>
+    <div class="col-md-2">
+        {{ filter.form.category }}
+    </div>
+    <div class="col-md-2">
+        {{ filter.form.subcategory }}
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100">
+            Фильтр
+        </button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Тип</th>
+            <th>Категория</th>
+            <th>Подкатегория</th>
+            <th>Сумма</th>
+            <th>Комментарий</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+    {% for transaction in filter.qs %}
+    <tr>
+        <td>{{ transaction.created_at }}</td>
+        <td>{{ transaction.status }}</td>
+        <td>{{ transaction.type }}</td>
+        <td>{{ transaction.category }}</td>
+        <td>{{ transaction.subcategory }}</td>
+        <td>{{ transaction.amount }}</td>
+        <td>{{ transaction.comment }}</td>
+        <td>
+            <a href="/edit/{{ transaction.id }}/" class="btn btn-sm btn-warning">
+            Редактировать
+            </a>
+            <a href="/delete/{{ transaction.id }}/" class="btn btn-sm btn-danger">
+            Удалить
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
